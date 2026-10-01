@@ -1,0 +1,24 @@
+{
+	email {$ACME_EMAIL}
+}
+
+# Shared backend for every app. supabase-js expects these exact path prefixes.
+api.{$DOMAIN} {
+	encode zstd gzip
+
+	handle_path /auth/v1/* {
+		reverse_proxy auth:9999
+	}
+	handle_path /rest/v1/* {
+		reverse_proxy rest:3000
+	}
+	handle_path /storage/v1/* {
+		reverse_proxy storage:5000
+	}
+	handle {
+		respond "not found" 404
+	}
+}
+
+# One file per app, written by scripts/new-app.sh.
+import sites/*.caddy

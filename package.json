@@ -1,0 +1,12 @@
+{
+  "name": "cloud-project",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test 'packages/**/*.test.js' 'scripts/*.test.mjs'",
+    "test:e2e": "test/run-e2e.sh"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}

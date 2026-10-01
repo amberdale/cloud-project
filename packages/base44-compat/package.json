@@ -1,0 +1,14 @@
+{
+  "name": "base44-compat",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Drop-in replacement for @base44/sdk backed by self-hosted Supabase",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test 'test/*.test.js'"
+  },
+  "peerDependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}

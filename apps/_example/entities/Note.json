@@ -1,0 +1,9 @@
+{
+  "name": "Note",
+  "type": "object",
+  "x-access": "private",
+  "properties": {
+    "body": { "type": "string" },
+    "pinned": { "type": "boolean", "default": false }
+  }
+}

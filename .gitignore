@@ -1,0 +1,10 @@
+.env
+volumes/
+www/*
+!www/.gitkeep
+node_modules/
+*.log
+backups/
+# test-only app created by test/run-e2e.sh
+apps/demo/
+caddy/sites/demo.caddy

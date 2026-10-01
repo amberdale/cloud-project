@@ -1,0 +1,14 @@
+{
+  "name": "Task",
+  "type": "object",
+  "properties": {
+    "title": { "type": "string", "description": "Task title" },
+    "status": { "type": "string", "enum": ["todo", "in_progress", "done"], "default": "todo" },
+    "priority": { "type": "integer", "default": 1 },
+    "estimate_hours": { "type": "number" },
+    "due_date": { "type": "string", "format": "date" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "project_id": { "type": "string", "description": "id of a Project record" }
+  },
+  "required": ["title"]
+}
