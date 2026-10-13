@@ -2,7 +2,7 @@ import { memo, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { ease } from '../../../lib/motion';
-import { Landscape } from './Landscape';
+import { Concrete, MistyFjord, SlateRoof, TimberCladding } from '../photo';
 
 /**
  * Holm Arkitektur: a fictional Bergen practice. Each section appears when the
@@ -12,9 +12,9 @@ const INK = '#1C1F1E';
 const SAND = '#F2F0EB';
 
 const PROJECTS = [
-  { name: 'Hus Tveit', place: 'Voss', year: '2025', variant: 'fjord' as const },
-  { name: 'Sjøbu Austevoll', place: 'Austevoll', year: '2024', variant: 'coast' as const },
-  { name: 'Hytte Skarvet', place: 'Finse', year: '2023', variant: 'snow' as const },
+  { name: 'Hus Tveit', place: 'Voss', year: '2025', Photo: TimberCladding },
+  { name: 'Sjøbu Austevoll', place: 'Austevoll', year: '2024', Photo: Concrete },
+  { name: 'Hytte Skarvet', place: 'Finse', year: '2023', Photo: SlateRoof },
 ];
 
 function Appear({ when, instant, children, className = '', y = 12 }: { when: boolean; instant: boolean; children: ReactNode; className?: string; y?: number }) {
@@ -103,22 +103,15 @@ export const HolmSite = memo(function HolmSite({ stage, instant }: { stage: numb
         {stage >= 3 ? (
           <figure>
             <motion.div
-              className="relative aspect-[16/7] overflow-hidden"
-              initial={instant ? false : { clipPath: 'inset(8% 6% 8% 6%)', opacity: 0 }}
-              animate={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 }}
+              className="relative aspect-[16/7] overflow-hidden will-change-transform"
+              initial={instant ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: ease.out }}
             >
-              <motion.div
-                className="absolute inset-0"
-                initial={instant ? false : { scale: 1.08 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 1.4, ease: ease.out }}
-              >
-                <Landscape variant="dusk" className="h-full w-full" />
-              </motion.div>
+              <MistyFjord className="absolute inset-0 h-full w-full" />
             </motion.div>
             <figcaption className="mt-2 flex justify-between text-[11px] text-[#1C1F1E]/55">
-              <span>Hytte Lunde, Voss. Larch, glass, slate.</span>
+              <span>Site visit, Hytte Lunde, Voss. October.</span>
               <span>01 / 12</span>
             </figcaption>
           </figure>
@@ -143,7 +136,7 @@ export const HolmSite = memo(function HolmSite({ stage, instant }: { stage: numb
                 transition={{ duration: 0.55, ease: ease.out, delay: instant ? 0 : i * 0.08 }}
               >
                 <div className="aspect-[4/5] overflow-hidden">
-                  <Landscape variant={p.variant} className="h-full w-full" />
+                  <p.Photo className="h-full w-full" />
                 </div>
                 <p className="mt-2 text-[12.5px] font-medium leading-tight">{p.name}</p>
                 <p className="text-[11px] text-[#1C1F1E]/55">

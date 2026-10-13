@@ -25,6 +25,8 @@ src/components/
   demos/websites/   code editor + Holm Arkitektur preview
   demos/saas/       Strøk quote calculator (quote.ts is the real pricing model,
                     shown in the editor via ?raw)
+  demos/photo.tsx   photographic stand-ins (wood, flour, kraft, concrete,
+                    timber, slate, a misty fjord) drawn with SVG filters
   site/             header, hero, services, method, contact
 ```
 
@@ -42,3 +44,7 @@ Colours and type follow the Amberdale brand guide (Edition 2). Romano Revival
 is not on Google Fonts, so the wordmark falls back to Bodoni Moda; add the
 licensed font with an `@font-face` named "Romano Revival" and it takes over.
 The leaf in `components/brand/Leaf.tsx` is a redraw: swap in the master SVG.
+
+The demo imagery is rendered, not photographed. To use real photos, replace
+the components from `demos/photo.tsx` with `<img>` tags (graded warm, low
+saturation, as the guide asks).

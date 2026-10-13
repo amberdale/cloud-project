@@ -5,7 +5,8 @@ import { useTimeline, type TimelineStep } from '../../../lib/useTimeline';
 import { ease } from '../../../lib/motion';
 import type { RunMode } from '../../../lib/demo';
 import { ProgressMeter, StepList } from '../../workspace/StepList';
-import { BreadBag, LoafPicture, MOLLE, MolleMark, PALETTE } from './molle';
+import { CottonPaper, FlourOnBoard, KraftPaper } from '../photo';
+import { MOLLE, PALETTE, PAPER_SHADOW } from './molle';
 
 const STEPS: TimelineStep[] = [
   { at: 0, label: 'Defining visual identity' },
@@ -163,40 +164,54 @@ function BriefTile() {
 }
 
 function MarkTile({ instant }: { instant: boolean }) {
+  // Guides sit on Fraunces' real metrics: line-height 1 puts the baseline at
+  // 0.86em, the ascender at 0.12em and the x-height at 0.41em.
+  const guides = [
+    { top: '0.12em', label: 'Ascender' },
+    { top: '0.41em', label: 'x-height' },
+    { top: '0.86em', label: 'Baseline' },
+  ];
   return (
     <div className="relative flex h-full flex-col items-center justify-center" style={{ background: MOLLE.flour }}>
-      <Corner>Primary mark</Corner>
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        initial={instant ? { opacity: 0 } : { opacity: 1 }}
-        animate={{ opacity: 0 }}
-        transition={{ delay: instant ? 0 : 1.4, duration: 0.6 }}
-      >
-        <div className="absolute left-1/2 top-0 h-full w-px border-l border-dashed" style={{ borderColor: `${MOLLE.crust}66` }} />
-        <div className="absolute left-0 top-[42%] h-px w-full border-t border-dashed" style={{ borderColor: `${MOLLE.crust}66` }} />
-      </motion.div>
-      <MolleMark instant={instant} className="h-14 w-14 sm:h-16 sm:w-16" />
-      <div className="mt-3 flex overflow-hidden" aria-label="Mølle">
-        {'MØLLE'.split('').map((ch, i) => (
-          <motion.span
-            key={i}
+      <Corner>Primary logotype</Corner>
+      <div className="relative w-full text-[64px] leading-none sm:text-[78px]">
+        {guides.map((g, i) => (
+          <motion.div
+            key={g.label}
             aria-hidden
-            className="font-fraunces text-[40px] leading-none sm:text-[46px]"
-            style={{ color: MOLLE.rye, fontWeight: 600, letterSpacing: '0.04em' }}
-            initial={instant ? false : { y: '105%' }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.55, ease: ease.out, delay: instant ? 0 : 0.7 + i * 0.06 }}
+            className="pointer-events-none absolute inset-x-0 flex items-center"
+            style={{ top: g.top, height: 0, originX: 0 }}
+            initial={instant ? false : { scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ duration: 0.7, ease: ease.inOut, delay: instant ? 0 : i * 0.1 }}
           >
-            {ch}
-          </motion.span>
+            <span className="h-px flex-1" style={{ background: `${MOLLE.crust}50` }} />
+            <span className="px-2 font-mono text-[8.5px] uppercase tracking-[0.12em]" style={{ color: MOLLE.crust }}>
+              {g.label}
+            </span>
+          </motion.div>
         ))}
+        <div className="relative flex justify-center overflow-hidden" aria-label="Mølle">
+          {'Mølle'.split('').map((ch, i) => (
+            <motion.span
+              key={i}
+              aria-hidden
+              className="font-fraunces"
+              style={{ color: MOLLE.rye, fontWeight: 400, letterSpacing: '-0.02em', fontVariationSettings: '"opsz" 144' }}
+              initial={instant ? false : { y: '100%' }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.7, ease: ease.out, delay: instant ? 0 : 0.5 + i * 0.06 }}
+            >
+              {ch}
+            </motion.span>
+          ))}
+        </div>
       </div>
-      <p className="mt-2 font-mono text-[9.5px] uppercase tracking-[0.28em]" style={{ color: MOLLE.rye }}>
+      <p className="relative mt-4 font-mono text-[9.5px] uppercase tracking-[0.3em]" style={{ color: MOLLE.rye }}>
         Surdeigsbakeri / Grünerløkka
       </p>
-      <span className="absolute bottom-3 right-3 font-mono text-[9.5px] uppercase tracking-[0.14em]" style={{ color: MOLLE.rye, opacity: 0.6 }}>
-        Clear space 1×
+      <span className="absolute bottom-3 right-3 font-mono text-[9px] uppercase tracking-[0.14em]" style={{ color: MOLLE.rye, opacity: 0.6 }}>
+        Fraunces 400 / opsz 144 / −20
       </span>
     </div>
   );
@@ -214,10 +229,12 @@ function PaletteTile({ instant }: { instant: boolean }) {
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.6, ease: ease.out, delay: instant ? 0 : i * 0.09 }}
         >
-          <span className="font-fraunces text-[13px] leading-none" style={{ fontWeight: 600 }}>
-            {c.name}
+          <span className="font-fraunces text-[13px] leading-none">{c.name}</span>
+          <span className="mt-1.5 font-mono text-[8.5px] leading-[1.4] opacity-80">
+            {c.hex}
+            <br />
+            <span className="hidden xl:inline">{c.cmyk}</span>
           </span>
-          <span className="mt-1 font-mono text-[9px] opacity-80">{c.hex.slice(1)}</span>
         </motion.div>
       ))}
     </div>
@@ -228,15 +245,13 @@ function TypeTile() {
   return (
     <div className="relative flex h-full flex-col justify-between p-4" style={{ color: MOLLE.rye }}>
       <Corner>Typography</Corner>
-      <p className="mt-5 font-fraunces text-[60px] leading-[0.9]" style={{ fontWeight: 600 }}>
-        Aa
+      <p className="mt-6 font-fraunces text-[44px] leading-[0.95]" style={{ fontVariationSettings: '"opsz" 144' }}>
+        Aa Øø
       </p>
       <div>
-        <p className="font-fraunces text-[15px]" style={{ fontWeight: 400 }}>
-          Fraunces / display and menus
-        </p>
-        <p className="mt-0.5 font-mono text-[10px] opacity-75">DM Mono / prices and hours</p>
-        <p className="mt-2 truncate font-fraunces text-[12px] opacity-70">ÆØÅ abcdefghijklm 0123456789</p>
+        <p className="font-fraunces text-[17px] leading-tight">Rugbrød, 06:40</p>
+        <p className="mt-1 font-mono text-[9.5px] opacity-75">Fraunces / headings, menu board</p>
+        <p className="font-mono text-[9.5px] opacity-75">DM Mono / prices, hours, labels</p>
       </div>
     </div>
   );
@@ -245,19 +260,26 @@ function TypeTile() {
 function ImageryTile({ instant }: { instant: boolean }) {
   return (
     <div className="relative h-full">
-      <div className="absolute inset-0">
-        <LoafPicture duotone={false} />
-      </div>
+      <FlourOnBoard className="absolute inset-0 h-full w-full" />
+      {/* Wipe from the raw frame to the graded one, using transforms only. */}
       <motion.div
-        className="absolute inset-0"
-        initial={instant ? false : { clipPath: 'inset(0 100% 0 0)' }}
-        animate={{ clipPath: 'inset(0 0% 0 0)' }}
-        transition={{ duration: 0.9, ease: ease.inOut, delay: instant ? 0 : 0.35 }}
+        className="absolute inset-0 overflow-hidden will-change-transform"
+        initial={instant ? false : { x: '-100%' }}
+        animate={{ x: 0 }}
+        transition={{ duration: 1.1, ease: ease.inOut, delay: instant ? 0 : 0.35 }}
       >
-        <LoafPicture duotone />
+        <motion.div
+          className="h-full w-full will-change-transform"
+          initial={instant ? false : { x: '100%' }}
+          animate={{ x: 0 }}
+          transition={{ duration: 1.1, ease: ease.inOut, delay: instant ? 0 : 0.35 }}
+        >
+          <FlourOnBoard className="h-full w-full" tone="duotone" />
+        </motion.div>
       </motion.div>
+      <span className="absolute left-3 top-3 font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#F5F0E6]/85">Art direction</span>
       <span className="absolute bottom-2 left-2 bg-[#F5F0E6]/90 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: MOLLE.rye }}>
-        Duotone / Rye on Oat
+        Warm grade / Rye shadows
       </span>
     </div>
   );
@@ -265,23 +287,40 @@ function ImageryTile({ instant }: { instant: boolean }) {
 
 function PackagingTile() {
   return (
-    <div className="relative flex h-full items-end justify-center gap-3 px-3 pb-3 pt-8" style={{ background: '#E9E1D1' }}>
+    <div className="relative h-full overflow-hidden">
+      <CottonPaper className="absolute inset-0 h-full w-full" color="#D8D1C4" />
       <Corner>Packaging</Corner>
-      <div className="h-[82%]">
-        <BreadBag />
-      </div>
+      {/* Bread bag, front face with gussets and a folded top. */}
       <div
-        className="mb-2 hidden h-[44%] w-[38%] flex-col justify-between p-2 shadow-[0_1px_0_rgba(43,31,23,0.15)] sm:flex"
-        style={{ background: MOLLE.flour, transform: 'rotate(-4deg)' }}
+        className="absolute bottom-[-6%] left-[12%] h-[82%] w-[44%] overflow-hidden"
+        style={{ boxShadow: PAPER_SHADOW, transform: 'rotate(-2deg)' }}
       >
-        <span className="font-fraunces text-[11px] leading-none" style={{ color: MOLLE.rye, fontWeight: 600 }}>
-          Mølle
-        </span>
-        <span className="font-mono text-[7px] leading-tight" style={{ color: MOLLE.rye }}>
-          Thorvald Meyers gate
-          <br />
-          07–15
-        </span>
+        <KraftPaper className="absolute inset-0 h-full w-full" />
+        <div className="absolute inset-y-0 left-0 w-[9%] bg-gradient-to-r from-black/25 to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-[9%] bg-gradient-to-l from-black/30 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-[13%] bg-gradient-to-b from-black/20 to-transparent" />
+        <div className="absolute inset-x-0 top-[13%] h-px bg-black/25" />
+        <div className="absolute inset-x-0 top-[36%] text-center mix-blend-multiply" style={{ color: MOLLE.rye }}>
+          <p className="font-fraunces text-[22px] leading-none opacity-90" style={{ fontVariationSettings: '"opsz" 144' }}>
+            Mølle
+          </p>
+          <p className="mt-1.5 font-mono text-[5.5px] uppercase tracking-[0.3em] opacity-80">Surdeig / Oslo</p>
+        </div>
+      </div>
+      {/* Business card resting against the bag. */}
+      <div
+        className="absolute bottom-[12%] right-[8%] hidden aspect-[85/55] w-[42%] overflow-hidden sm:block"
+        style={{ boxShadow: PAPER_SHADOW, transform: 'rotate(5deg)' }}
+      >
+        <CottonPaper className="absolute inset-0 h-full w-full" />
+        <div className="absolute inset-0 flex flex-col justify-between p-2" style={{ color: MOLLE.rye }}>
+          <span className="font-fraunces text-[11px] leading-none">Mølle</span>
+          <span className="font-mono text-[5.5px] leading-[1.5]">
+            Thorvald Meyers gate 40
+            <br />
+            Open 07–15
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -289,16 +328,27 @@ function PackagingTile() {
 
 function CampaignTile() {
   return (
-    <div className="relative flex h-full flex-col justify-between p-4" style={{ background: MOLLE.crust, color: MOLLE.flour }}>
-      <Corner light>Campaign</Corner>
-      <p className="mt-6 font-fraunces text-[23px] leading-[1.02]" style={{ fontWeight: 600 }}>
-        Bakt i natt.
-        <br />
-        Borte til lunsj.
-      </p>
-      <div className="flex items-end justify-between font-mono text-[9.5px] uppercase tracking-[0.14em]">
-        <span>Åpent 07–15</span>
-        <MolleMark instant className="h-6 w-6" color={MOLLE.flour} />
+    <div className="relative h-full overflow-hidden" style={{ background: '#C9C2B6' }}>
+      <CottonPaper className="absolute inset-0 h-full w-full" color="#C9C2B6" />
+      <Corner>Campaign</Corner>
+      {/* A printed A3 poster pasted on a plaster wall. */}
+      <div
+        className="absolute inset-x-[14%] bottom-[8%] top-[20%] overflow-hidden"
+        style={{ boxShadow: '0 1px 1px rgba(30,20,10,0.25), 0 8px 16px -10px rgba(30,20,10,0.45)' }}
+      >
+        <CottonPaper className="absolute inset-0 h-full w-full" color={MOLLE.crust} />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/15" />
+        <div className="absolute inset-0 flex flex-col justify-between p-3" style={{ color: MOLLE.flour }}>
+          <p className="font-fraunces text-[19px] leading-[1.02]" style={{ fontVariationSettings: '"opsz" 144' }}>
+            Bakt i natt.
+            <br />
+            Borte til lunsj.
+          </p>
+          <div className="flex items-end justify-between font-mono text-[7.5px] uppercase tracking-[0.14em]">
+            <span>Åpent 07–15</span>
+            <span className="font-fraunces text-[11px] normal-case tracking-normal">Mølle</span>
+          </div>
+        </div>
       </div>
     </div>
   );
