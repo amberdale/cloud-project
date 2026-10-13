@@ -1,5 +1,8 @@
 import { memo, type ReactNode } from 'react';
-import { asset } from '../../../lib/asset';
+import FjordPhoto from '../../../assets/photos/fjord.webp';
+import HusTveitPhoto from '../../../assets/photos/hus-tveit.webp';
+import SjobuPhoto from '../../../assets/photos/sjobu.webp';
+import SkarvetPhoto from '../../../assets/photos/skarvet.webp';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { ease } from '../../../lib/motion';
@@ -12,9 +15,9 @@ const INK = '#1C1F1E';
 const SAND = '#F2F0EB';
 
 const PROJECTS = [
-  { name: 'Hus Tveit', place: 'Voss', year: '2025', src: asset('images/hus-tveit.webp'), alt: 'A two-storey house clad in vertical timber' },
-  { name: 'Sjøbu Austevoll', place: 'Austevoll', year: '2024', src: asset('images/sjobu.webp'), alt: 'Red boathouses on a rocky shore below mountains' },
-  { name: 'Hytte Skarvet', place: 'Finse', year: '2023', src: asset('images/skarvet.webp'), alt: 'A small red cabin alone on a grassy ridge' },
+  { name: 'Hus Tveit', place: 'Voss', year: '2025', src: HusTveitPhoto, alt: 'A two-storey house clad in vertical timber' },
+  { name: 'Sjøbu Austevoll', place: 'Austevoll', year: '2024', src: SjobuPhoto, alt: 'Red boathouses on a rocky shore below mountains' },
+  { name: 'Hytte Skarvet', place: 'Finse', year: '2023', src: SkarvetPhoto, alt: 'A small red cabin alone on a grassy ridge' },
 ];
 
 /** The practice's own grade: cool, quiet, a little desaturated. */
@@ -112,7 +115,7 @@ export const HolmSite = memo(function HolmSite({ stage, instant }: { stage: numb
               transition={{ duration: 0.9, ease: ease.out }}
             >
               <img
-                src={asset('images/fjord.webp')}
+                src={FjordPhoto}
                 alt="A fjord between steep green mountainsides, seen from above"
                 className="absolute inset-0 h-full w-full object-cover"
                 style={GRADE}

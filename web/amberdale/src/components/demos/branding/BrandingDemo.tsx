@@ -1,5 +1,5 @@
 import { memo, type ReactNode } from 'react';
-import { asset } from '../../../lib/asset';
+import RyeLoavesPhoto from '../../../assets/photos/rye-loaves.webp';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BadgeCheck } from 'lucide-react';
 import { useTimeline, type TimelineStep } from '../../../lib/useTimeline';
@@ -266,7 +266,7 @@ const GRADED = 'sepia(0.28) saturate(0.72) contrast(0.9) brightness(1.04)';
 function ImageryTile({ instant }: { instant: boolean }) {
   const photo = (filter: string) => (
     <img
-      src={asset('images/rye-loaves.webp')}
+      src={RyeLoavesPhoto}
       alt=""
       draggable={false}
       className="absolute inset-0 h-full w-full object-cover"

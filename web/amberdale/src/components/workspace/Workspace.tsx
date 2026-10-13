@@ -17,7 +17,10 @@ import { StatusBar } from './StatusBar';
  * The studio workspace: one window, three live demonstrations. Demo panels
  * share a fixed-height stage and cross-fade, so switching never shifts layout.
  */
-export function Workspace({ ws }: { ws: WorkspaceApi }) {
+const HERO_STAGE = 'h-[620px] sm:h-[600px] lg:h-[clamp(460px,calc(100svh-420px),640px)]';
+
+/** `stageClassName` sets the stage height; the default fits under the hero copy. */
+export function Workspace({ ws, stageClassName = HERO_STAGE }: { ws: WorkspaceApi; stageClassName?: string }) {
   const quote = useQuoteState();
   const { active, run, complete } = ws;
   const onComplete = useCallback(() => complete(active, run.key), [complete, active, run.key]);
@@ -48,7 +51,7 @@ export function Workspace({ ws }: { ws: WorkspaceApi }) {
         id={panelId}
         role="tabpanel"
         aria-labelledby={tabId(active)}
-        className="relative h-[620px] overflow-hidden sm:h-[600px] lg:h-[clamp(460px,calc(100svh-420px),640px)]"
+        className={`relative overflow-hidden ${stageClassName}`}
       >
         <AnimatePresence initial={false}>
           <motion.div

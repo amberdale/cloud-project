@@ -9,7 +9,14 @@ npm install
 npm run dev        # http://localhost:3000
 npm run build      # type-checks, then writes dist/
 ../../scripts/deploy-app.sh amberdale web/amberdale/dist   # run from the repo root
+npm run build:embed  # the workspace alone, as one self-contained HTML file
 ```
+
+`build:embed` writes `dist-embed/amberdale-workspace.html` (a full document)
+and `amberdale-workspace.fragment.html` (no html/head/body tags, for pasting
+into another page or a Claude artifact). Scripts, styles and photos are
+inlined; only the fonts load from Google Fonts. `workspace.html` is the same
+view as a normal page in the regular build.
 
 ## Structure
 
@@ -26,7 +33,7 @@ src/components/
   demos/saas/       Strøk quote calculator (quote.ts is the real pricing model,
                     shown in the editor via ?raw)
   demos/photo.tsx   paper textures for the print mockups (SVG filters)
-public/images/      demo photography, see Photo credits below
+src/assets/photos/  demo photography, see Photo credits below
   site/             header, hero, services, method, contact
 ```
 
@@ -48,7 +55,7 @@ The leaf in `components/brand/Leaf.tsx` is a redraw: swap in the master SVG.
 ## Photo credits
 
 Demo photos come from Unsplash (Unsplash License: free for commercial use, no
-attribution required). They are stored locally, so the site loads nothing
+attribution required). They are bundled with the build, so the site loads nothing
 from Unsplash. Source pages, by photo id:
 
 | File | Unsplash id |

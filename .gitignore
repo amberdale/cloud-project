@@ -12,3 +12,4 @@ caddy/sites/demo.caddy
 # web frontends
 web/*/dist/
 web/*/*.tsbuildinfo
+web/*/dist-embed/
