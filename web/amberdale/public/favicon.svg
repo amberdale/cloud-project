@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#F8F5EA"/>
+  <text x="32" y="52" text-anchor="middle" font-family="Didot, 'Bodoni Moda', Georgia, serif" font-size="52" fill="#1F1E1B">A</text>
+  <path d="M24 36 C28 31 36 31 40 35 C36 39 28 40 24 36 Z" fill="#97592B"/>
+</svg>

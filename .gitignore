@@ -8,3 +8,6 @@ backups/
 # test-only app created by test/run-e2e.sh
 apps/demo/
 caddy/sites/demo.caddy
+
+# web frontends
+web/*/dist/

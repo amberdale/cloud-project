@@ -36,6 +36,7 @@ packages/base44-compat/   drop-in @base44/sdk replacement + React login page
 apps/<app>/               per-app config: entities/*.json, schema.sql, app.env, custom.sql
 apps/_example/            sample Base44 entity schemas
 scripts/                  gen-keys, new-app, apply-schema, import-data, deploy-app, backup
+web/amberdale/            amberdale.no studio site (Vite + React)
 www/<app>/                deployed frontend builds (not in git)
 ```
 
