@@ -5,7 +5,7 @@ import { useTimeline, type TimelineStep } from '../../../lib/useTimeline';
 import { ease } from '../../../lib/motion';
 import type { RunMode } from '../../../lib/demo';
 import { ProgressMeter, StepList } from '../../workspace/StepList';
-import { CottonPaper, FlourOnBoard, KraftPaper } from '../photo';
+import { CottonPaper, KraftPaper } from '../photo';
 import { MOLLE, PALETTE, PAPER_SHADOW } from './molle';
 
 const STEPS: TimelineStep[] = [
@@ -257,10 +257,24 @@ function TypeTile() {
   );
 }
 
+// The same frame before and after the brand grade: warmer, lower
+// saturation, lifted shadows.
+const RAW = 'saturate(1.08) contrast(1.04)';
+const GRADED = 'sepia(0.28) saturate(0.72) contrast(0.9) brightness(1.04)';
+
 function ImageryTile({ instant }: { instant: boolean }) {
+  const photo = (filter: string) => (
+    <img
+      src="/images/rye-loaves.webp"
+      alt=""
+      draggable={false}
+      className="absolute inset-0 h-full w-full object-cover"
+      style={{ filter }}
+    />
+  );
   return (
-    <div className="relative h-full">
-      <FlourOnBoard className="absolute inset-0 h-full w-full" />
+    <div className="relative h-full" role="img" aria-label="Rye loaves on a dark board, shown before and after the brand colour grade">
+      {photo(RAW)}
       {/* Wipe from the raw frame to the graded one, using transforms only. */}
       <motion.div
         className="absolute inset-0 overflow-hidden will-change-transform"
@@ -269,15 +283,16 @@ function ImageryTile({ instant }: { instant: boolean }) {
         transition={{ duration: 1.1, ease: ease.inOut, delay: instant ? 0 : 0.35 }}
       >
         <motion.div
-          className="h-full w-full will-change-transform"
+          className="absolute inset-0 will-change-transform"
           initial={instant ? false : { x: '100%' }}
           animate={{ x: 0 }}
           transition={{ duration: 1.1, ease: ease.inOut, delay: instant ? 0 : 0.35 }}
         >
-          <FlourOnBoard className="h-full w-full" tone="duotone" />
+          {photo(GRADED)}
         </motion.div>
       </motion.div>
-      <span className="absolute left-3 top-3 font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#F5F0E6]/85">Art direction</span>
+      <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/55 to-transparent" />
+      <span className="absolute left-3 top-3 font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#F5F0E6]">Art direction</span>
       <span className="absolute bottom-2 left-2 bg-[#F5F0E6]/90 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: MOLLE.rye }}>
         Warm grade / Rye shadows
       </span>

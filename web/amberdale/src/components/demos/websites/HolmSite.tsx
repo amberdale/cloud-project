@@ -2,7 +2,6 @@ import { memo, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { ease } from '../../../lib/motion';
-import { Concrete, MistyFjord, SlateRoof, TimberCladding } from '../photo';
 
 /**
  * Holm Arkitektur: a fictional Bergen practice. Each section appears when the
@@ -12,10 +11,13 @@ const INK = '#1C1F1E';
 const SAND = '#F2F0EB';
 
 const PROJECTS = [
-  { name: 'Hus Tveit', place: 'Voss', year: '2025', Photo: TimberCladding },
-  { name: 'Sjøbu Austevoll', place: 'Austevoll', year: '2024', Photo: Concrete },
-  { name: 'Hytte Skarvet', place: 'Finse', year: '2023', Photo: SlateRoof },
+  { name: 'Hus Tveit', place: 'Voss', year: '2025', src: '/images/hus-tveit.webp', alt: 'A two-storey house clad in vertical timber' },
+  { name: 'Sjøbu Austevoll', place: 'Austevoll', year: '2024', src: '/images/sjobu.webp', alt: 'Red boathouses on a rocky shore below mountains' },
+  { name: 'Hytte Skarvet', place: 'Finse', year: '2023', src: '/images/skarvet.webp', alt: 'A small red cabin alone on a grassy ridge' },
 ];
+
+/** The practice's own grade: cool, quiet, a little desaturated. */
+const GRADE = { filter: 'saturate(0.78) contrast(0.96) brightness(1.02)' };
 
 function Appear({ when, instant, children, className = '', y = 12 }: { when: boolean; instant: boolean; children: ReactNode; className?: string; y?: number }) {
   if (!when) return null;
@@ -108,10 +110,15 @@ export const HolmSite = memo(function HolmSite({ stage, instant }: { stage: numb
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: ease.out }}
             >
-              <MistyFjord className="absolute inset-0 h-full w-full" />
+              <img
+                src="/images/fjord.webp"
+                alt="A fjord between steep green mountainsides, seen from above"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={GRADE}
+              />
             </motion.div>
             <figcaption className="mt-2 flex justify-between text-[11px] text-[#1C1F1E]/55">
-              <span>Site visit, Hytte Lunde, Voss. October.</span>
+              <span>Site visit above the fjord. October.</span>
               <span>01 / 12</span>
             </figcaption>
           </figure>
@@ -136,7 +143,7 @@ export const HolmSite = memo(function HolmSite({ stage, instant }: { stage: numb
                 transition={{ duration: 0.55, ease: ease.out, delay: instant ? 0 : i * 0.08 }}
               >
                 <div className="aspect-[4/5] overflow-hidden">
-                  <p.Photo className="h-full w-full" />
+                  <img src={p.src} alt={p.alt} loading="lazy" className="h-full w-full object-cover" style={GRADE} />
                 </div>
                 <p className="mt-2 text-[12.5px] font-medium leading-tight">{p.name}</p>
                 <p className="text-[11px] text-[#1C1F1E]/55">

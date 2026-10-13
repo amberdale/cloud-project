@@ -27,9 +27,9 @@ export default function Home() {
   {
     stage: 3,
     code: `      <Picture
-        src="/images/lunde-dusk.avif"
-        alt="Hytte Lunde above the fjord at dusk"
-        treatment="dusk"
+        src="/images/fjord.webp"
+        alt="A fjord between steep mountainsides"
+        grade="quiet"
         ratio={16 / 7}
       />`,
   },
